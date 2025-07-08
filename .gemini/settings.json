@@ -1,0 +1,34 @@
+{
+  "contextFileName": [
+    ".github/copilot-instructions.md",
+    "GEMINI.md"
+  ],
+  "preferredEditor": "vscode",
+  "theme": "GitHub",
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_PERSONAL_ACCESS_TOKEN"
+      },
+      "trust": true
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "trust": true
+    }
+  }
+}

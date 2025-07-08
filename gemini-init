@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+# Gemini CLI 設定精靈 🧙‍♂️✨
+set -euo pipefail
+
+echo "🌟 歡迎使用 Gemini 設定精靈！讓我們一起建立 .gemini/settings.json 🚀"
+
+# 建立 .gemini 目錄
+mkdir -p .gemini
+
+# 建立空 JSON
+echo '{}' | jq '.' > .gemini/settings.json
+
+###############################################################################
+# 互動式輸入
+###############################################################################
+
+# 1. contextFileName
+read -p "📝 請輸入要加入 context 的檔案名稱(逗號分隔，預設 .github/copilot-instructions.md,GEMINI.md): " context_files
+context_files=${context_files:-".github/copilot-instructions.md,GEMINI.md"}
+
+IFS=',' read -ra files <<< "$context_files"
+jq '.contextFileName = []' .gemini/settings.json | sponge .gemini/settings.json
+for f in "${files[@]}"; do
+  jq --arg file "$f" '.contextFileName += [$file]' .gemini/settings.json | sponge .gemini/settings.json
+done
+echo "✅ 已加入 $(printf '%s ' "${files[@]}")"
+
+# 2. preferredEditor 選單(預設 2 - VS Code)
+editor_keys=(zed vscode vscodium windsurf cursor vim neovim)
+editor_names=("Zed" "VS Code" "VSCodium" "Windsurf" "Cursor" "Vim" "Neovim")
+
+echo "🖋️ 請從下列編輯器選擇編號(直接 Enter 取預設 2 - VS Code)︰"
+for i in "${!editor_names[@]}"; do
+  printf "  %2d) %s\n" $((i+1)) "${editor_names[$i]}"
+done
+
+read -p "你的選擇: " e_choice
+e_choice=${e_choice:-2}
+if ! [[ "$e_choice" =~ ^[1-7]$ ]]; then
+  echo "❌ 無效數字，改用預設 2 - VS Code"
+  e_choice=2
+fi
+preferred_editor="${editor_keys[$((e_choice-1))]}"
+jq --arg pe "$preferred_editor" '.preferredEditor = $pe' .gemini/settings.json | sponge .gemini/settings.json
+echo "✅ preferredEditor 設定為 ${editor_names[$((e_choice-1))]}"
+
+# 3. theme 選單(預設 9 - GitHub)
+themes=(
+  "ANSI Light"
+  "ANSI"
+  "Atom One"
+  "Ayu Light"
+  "Ayu"
+  "Default Light"
+  "Default"
+  "Dracula"
+  "GitHub"
+  "GitHub Light"
+  "Google Code"
+  "No Color"
+  "Shades Of Purple"
+)
+
+echo "🎨 請從下列主題選擇編號(直接 Enter 取預設 9 - GitHub)︰"
+for i in "${!themes[@]}"; do
+  printf "  %2d) %s\n" $((i+1)) "${themes[$i]}"
+done
+
+read -p "你的選擇: " choice
+choice=${choice:-9}
+if ! [[ "$choice" =~ ^[1-9]$|^1[0-3]$ ]]; then
+  echo "❌ 無效數字，改用預設 9 - GitHub"
+  choice=9
+fi
+theme_name="${themes[$((choice-1))]}"
+jq --arg th "$theme_name" '.theme = $th' .gemini/settings.json | sponge .gemini/settings.json
+echo "✅ theme 設定為 $theme_name"
+
+###############################################################################
+# mcpServers.github
+###############################################################################
+
+read -p "🐙 是否設定 GitHub MCP server？(y/N): " use_github
+if [[ "${use_github,,}" == "y" ]]; then
+  jq '.mcpServers.github = {}' .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.github.command = "docker"' .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.github.args = ["run","-i","--rm","-e","GITHUB_PERSONAL_ACCESS_TOKEN","ghcr.io/github/github-mcp-server"]' \
+     .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.github.env = {"GITHUB_PERSONAL_ACCESS_TOKEN":"$GITHUB_PERSONAL_ACCESS_TOKEN"}' \
+     .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.github.trust = true' .gemini/settings.json | sponge .gemini/settings.json
+  echo "✅ GitHub MCP server 已設定 🎉"
+else
+  echo "⏭️ 跳過 GitHub MCP server 設定"
+fi
+
+###############################################################################
+# mcpServers.context7
+###############################################################################
+
+read -p "🔌 是否設定 Context7 MCP server？(y/N): " use_ctx7
+if [[ "${use_ctx7,,}" == "y" ]]; then
+  jq '.mcpServers.context7 = {}' .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.context7.type = "stdio"' .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.context7.command = "npx"' .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.context7.args = ["-y","@upstash/context7-mcp"]' .gemini/settings.json | sponge .gemini/settings.json
+  jq '.mcpServers.context7.trust = true' .gemini/settings.json | sponge .gemini/settings.json
+  echo "✅ Context7 MCP server 已設定 🚀"
+else
+  echo "⏭️ 跳過 Context7 MCP server 設定"
+fi
+
+echo "🎊 全部完成！已產生 .gemini/settings.json，祝開發愉快 🤖"
