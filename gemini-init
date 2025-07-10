@@ -81,7 +81,7 @@ echo "✅ theme 設定為 $theme_name"
 ###############################################################################
 
 read -p "🐙 是否設定 GitHub MCP server？(y/N): " use_github
-if [[ "${use_github,,}" == "y" ]]; then
+if [[ "$(echo "${use_github}" | tr '[:upper:]' '[:lower:]')" == "y" ]]; then
   jq '.mcpServers.github = {}' .gemini/settings.json | sponge .gemini/settings.json
   jq '.mcpServers.github.command = "docker"' .gemini/settings.json | sponge .gemini/settings.json
   jq '.mcpServers.github.args = ["run","-i","--rm","-e","GITHUB_PERSONAL_ACCESS_TOKEN","ghcr.io/github/github-mcp-server"]' \
@@ -99,7 +99,7 @@ fi
 ###############################################################################
 
 read -p "🔌 是否設定 Context7 MCP server？(y/N): " use_ctx7
-if [[ "${use_ctx7,,}" == "y" ]]; then
+if [[ "$(echo "${use_ctx7}" | tr '[:upper:]' '[:lower:]')" == "y" ]]; then
   jq '.mcpServers.context7 = {}' .gemini/settings.json | sponge .gemini/settings.json
   jq '.mcpServers.context7.type = "stdio"' .gemini/settings.json | sponge .gemini/settings.json
   jq '.mcpServers.context7.command = "npx"' .gemini/settings.json | sponge .gemini/settings.json
