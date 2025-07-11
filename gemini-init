@@ -31,6 +31,7 @@ echo "✅ 已加入 $(printf '%s ' "${files[@]}")"
 editor_keys=(zed vscode vscodium windsurf cursor vim neovim)
 editor_names=("Zed" "VS Code" "VSCodium" "Windsurf" "Cursor" "Vim" "Neovim")
 
+
 echo "🖋️ 請從下列編輯器選擇編號:"
 echo "   (直接 Enter 取預設 2 - VS Code)"
 for i in "${!editor_names[@]}"; do
@@ -64,6 +65,7 @@ themes=(
   "Shades Of Purple"
 )
 
+
 echo "🎨 請從下列主題選擇編號:"
 echo "   (直接 Enter 取預設 9 - GitHub)"
 for i in "${!themes[@]}"; do
@@ -83,6 +85,7 @@ echo "✅ theme 設定為 $theme_name"
 ###############################################################################
 # mcpServers.github
 ###############################################################################
+
 
 read -p "🐙 是否設定 GitHub MCP server？(y/N): " use_github
 case "$use_github" in
@@ -105,6 +108,7 @@ esac
 # mcpServers.context7
 ###############################################################################
 
+
 read -p "🔌 是否設定 Context7 MCP server？(y/N): " use_ctx7
 case "$use_ctx7" in
   [Yy]*)
@@ -119,5 +123,6 @@ case "$use_ctx7" in
     echo "⏭️ 跳過 Context7 MCP server 設定"
     ;;
 esac
+
 
 echo "🎊 全部完成！已產生 .gemini/settings.json，祝開發愉快 🤖"
