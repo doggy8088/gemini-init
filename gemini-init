@@ -15,7 +15,9 @@ echo '{}' | jq '.' > .gemini/settings.json
 ###############################################################################
 
 # 1. contextFileName
-read -p "📝 請輸入要加入 context 的檔案名稱(逗號分隔，預設 .github/copilot-instructions.md,CLAUDE.md,GEMINI.md): " context_files
+echo "📝 請輸入要加入 context 的檔案名稱(逗號分隔):"
+echo "   預設: .github/copilot-instructions.md,CLAUDE.md,GEMINI.md"
+read -p "你的選擇: " context_files
 context_files=${context_files:-".github/copilot-instructions.md,CLAUDE.md,GEMINI.md"}
 
 IFS=',' read -ra files <<< "$context_files"
@@ -29,7 +31,8 @@ echo "✅ 已加入 $(printf '%s ' "${files[@]}")"
 editor_keys=(zed vscode vscodium windsurf cursor vim neovim)
 editor_names=("Zed" "VS Code" "VSCodium" "Windsurf" "Cursor" "Vim" "Neovim")
 
-echo "🖋️ 請從下列編輯器選擇編號(直接 Enter 取預設 2 - VS Code)︰"
+echo "🖋️ 請從下列編輯器選擇編號:"
+echo "   (直接 Enter 取預設 2 - VS Code)"
 for i in "${!editor_names[@]}"; do
   printf "  %2d) %s\n" $((i+1)) "${editor_names[$i]}"
 done
@@ -61,7 +64,8 @@ themes=(
   "Shades Of Purple"
 )
 
-echo "🎨 請從下列主題選擇編號(直接 Enter 取預設 9 - GitHub)︰"
+echo "🎨 請從下列主題選擇編號:"
+echo "   (直接 Enter 取預設 9 - GitHub)"
 for i in "${!themes[@]}"; do
   printf "  %2d) %s\n" $((i+1)) "${themes[$i]}"
 done
