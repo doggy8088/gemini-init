@@ -15,7 +15,9 @@ echo '{}' | jq '.' > .gemini/settings.json
 ###############################################################################
 
 # 1. contextFileName
-read -p "📝 請輸入要加入 context 的檔案名稱(逗號分隔，預設 .github/copilot-instructions.md,CLAUDE.md,GEMINI.md): " context_files
+echo "📝 請輸入要加入 context 的檔案名稱(逗號分隔):"
+echo "   預設: .github/copilot-instructions.md,CLAUDE.md,GEMINI.md"
+read -p "你的選擇: " context_files
 context_files=${context_files:-".github/copilot-instructions.md,CLAUDE.md,GEMINI.md"}
 
 IFS=',' read -ra files <<< "$context_files"
@@ -24,12 +26,14 @@ for f in "${files[@]}"; do
   jq --arg file "$f" '.contextFileName += [$file]' .gemini/settings.json | sponge .gemini/settings.json
 done
 echo "✅ 已加入 $(printf '%s ' "${files[@]}")"
+echo ""
 
 # 2. preferredEditor 選單(預設 2 - VS Code)
 editor_keys=(zed vscode vscodium windsurf cursor vim neovim)
 editor_names=("Zed" "VS Code" "VSCodium" "Windsurf" "Cursor" "Vim" "Neovim")
 
-echo "🖋️ 請從下列編輯器選擇編號(直接 Enter 取預設 2 - VS Code)︰"
+echo "🖋️ 請從下列編輯器選擇編號:"
+echo "   (直接 Enter 取預設 2 - VS Code)"
 for i in "${!editor_names[@]}"; do
   printf "  %2d) %s\n" $((i+1)) "${editor_names[$i]}"
 done
@@ -43,6 +47,7 @@ fi
 preferred_editor="${editor_keys[$((e_choice-1))]}"
 jq --arg pe "$preferred_editor" '.preferredEditor = $pe' .gemini/settings.json | sponge .gemini/settings.json
 echo "✅ preferredEditor 設定為 ${editor_names[$((e_choice-1))]}"
+echo ""
 
 # 3. theme 選單(預設 9 - GitHub)
 themes=(
@@ -61,7 +66,8 @@ themes=(
   "Shades Of Purple"
 )
 
-echo "🎨 請從下列主題選擇編號(直接 Enter 取預設 9 - GitHub)︰"
+echo "🎨 請從下列主題選擇編號:"
+echo "   (直接 Enter 取預設 9 - GitHub)"
 for i in "${!themes[@]}"; do
   printf "  %2d) %s\n" $((i+1)) "${themes[$i]}"
 done
@@ -75,10 +81,12 @@ fi
 theme_name="${themes[$((choice-1))]}"
 jq --arg th "$theme_name" '.theme = $th' .gemini/settings.json | sponge .gemini/settings.json
 echo "✅ theme 設定為 $theme_name"
+echo ""
 
 ###############################################################################
 # mcpServers.github
 ###############################################################################
+
 
 read -p "🐙 是否設定 GitHub MCP server？(y/N): " use_github
 case "$use_github" in
@@ -96,10 +104,12 @@ case "$use_github" in
     echo "⏭️ 跳過 GitHub MCP server 設定"
     ;;
 esac
+echo ""
 
 ###############################################################################
 # mcpServers.context7
 ###############################################################################
+
 
 read -p "🔌 是否設定 Context7 MCP server？(y/N): " use_ctx7
 case "$use_ctx7" in
@@ -115,5 +125,6 @@ case "$use_ctx7" in
     echo "⏭️ 跳過 Context7 MCP server 設定"
     ;;
 esac
+echo ""
 
 echo "🎊 全部完成！已產生 .gemini/settings.json，祝開發愉快 🤖"
