@@ -1,6 +1,7 @@
 {
   "contextFileName": [
     ".github/copilot-instructions.md",
+    "CLAUDE.md",
     "GEMINI.md"
   ],
   "preferredEditor": "vscode",
