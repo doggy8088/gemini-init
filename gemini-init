@@ -88,7 +88,7 @@ echo ""
 ###############################################################################
 
 
-read -p "🐙 是否設定 GitHub MCP server？(y/N): " use_github
+read -n1 -r -p "🐙 是否設定 GitHub MCP server？(y/N): " use_github
 case "$use_github" in
   [Yy]*)
     jq '.mcpServers.github = {
@@ -110,7 +110,7 @@ echo ""
 ###############################################################################
 
 
-read -p "🔌 是否設定 Context7 MCP server？(y/N): " use_ctx7
+read -n1 -r -p "🔌 是否設定 Context7 MCP server？(y/N): " use_ctx7
 case "$use_ctx7" in
   [Yy]*)
     jq '.mcpServers.context7 = {}' .gemini/settings.json | sponge .gemini/settings.json
