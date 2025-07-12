@@ -91,13 +91,12 @@ echo ""
 read -p "🐙 是否設定 GitHub MCP server？(y/N): " use_github
 case "$use_github" in
   [Yy]*)
-    jq '.mcpServers.github = {}' .gemini/settings.json | sponge .gemini/settings.json
-    jq '.mcpServers.github.command = "docker"' .gemini/settings.json | sponge .gemini/settings.json
-    jq '.mcpServers.github.args = ["run","-i","--rm","-e","GITHUB_PERSONAL_ACCESS_TOKEN","ghcr.io/github/github-mcp-server"]' \
-       .gemini/settings.json | sponge .gemini/settings.json
-    jq '.mcpServers.github.env = {"GITHUB_PERSONAL_ACCESS_TOKEN":"$GITHUB_PERSONAL_ACCESS_TOKEN"}' \
-       .gemini/settings.json | sponge .gemini/settings.json
-    jq '.mcpServers.github.trust = true' .gemini/settings.json | sponge .gemini/settings.json
+    jq '.mcpServers.github = {
+      httpUrl: "https://api.githubcopilot.com/mcp/",
+      headers: { Authorization: "Bearer $GITHUB_PERSONAL_ACCESS_TOKEN" },
+      timeout: 5000,
+      trust: true
+    }' .gemini/settings.json | sponge .gemini/settings.json
     echo "✅ GitHub MCP server 已設定 🎉"
     ;;
   *)
