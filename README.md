@@ -75,7 +75,7 @@ sudo apt install -y jq moreutils
 ### 1. Context 檔案名稱
 
 - **功能**：指定要包含在 Gemini context 中的檔案
-- **預設值**：`.github/copilot-instructions.md,GEMINI.md`
+- **預設值**：`.github/copilot-instructions.md,CLAUDE.md,GEMINI.md,AGENTS.md`
 - **格式**：使用逗號分隔多個檔案名稱
 
 ### 2. 偏好編輯器
