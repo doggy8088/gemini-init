@@ -8,16 +8,19 @@ jq -n '{}' > .gemini/settings.json
 # 1. contextFileName（先建空陣列）
 jq '.contextFileName = []' .gemini/settings.json | sponge .gemini/settings.json
 
-# 2. 塞入 .github/copilot-instructions.md
-jq '.contextFileName += [".github/copilot-instructions.md"]' .gemini/settings.json | sponge .gemini/settings.json
-
-# 3. 再塞入 CLAUDE.md
-jq '.contextFileName += ["CLAUDE.md"]' .gemini/settings.json | sponge .gemini/settings.json
-
-# 4. 再塞入 GEMINI.md
+# 2. 塞入 GEMINI.md
 jq '.contextFileName += ["GEMINI.md"]' .gemini/settings.json | sponge .gemini/settings.json
 
-# 5. preferredEditor
+# 3. 再塞入 AGENTS.md
+jq '.contextFileName += ["AGENTS.md"]' .gemini/settings.json | sponge .gemini/settings.json
+
+# 4. 再塞入 CLAUDE.md
+jq '.contextFileName += ["CLAUDE.md"]' .gemini/settings.json | sponge .gemini/settings.json
+
+# 5. 再塞入 .github/copilot-instructions.md
+jq '.contextFileName += [".github/copilot-instructions.md"]' .gemini/settings.json | sponge .gemini/settings.json
+
+# 6. preferredEditor
 jq '.preferredEditor = "vscode"' .gemini/settings.json | sponge .gemini/settings.json
 
 # 6. theme
