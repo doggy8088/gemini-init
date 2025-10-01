@@ -84,6 +84,86 @@ echo "✅ theme 設定為 $theme_name"
 echo ""
 
 ###############################################################################
+# general.checkpointing.enabled
+###############################################################################
+
+read -n1 -r -p "💾 是否啟用 session checkpointing (用於恢復會話)？(y/N): " enable_checkpointing
+echo ""
+case "$enable_checkpointing" in
+  [Yy]*)
+    jq '.general.checkpointing.enabled = true' .gemini/settings.json | sponge .gemini/settings.json
+    echo "✅ checkpointing 已啟用"
+    ;;
+  *)
+    jq '.general.checkpointing.enabled = false' .gemini/settings.json | sponge .gemini/settings.json
+    echo "⏭️ checkpointing 未啟用"
+    ;;
+esac
+echo ""
+
+###############################################################################
+# ui.showMemoryUsage
+###############################################################################
+
+read -n1 -r -p "🧠 是否在 UI 中顯示記憶體使用資訊？(y/N): " show_memory
+echo ""
+case "$show_memory" in
+  [Yy]*)
+    jq '.ui.showMemoryUsage = true' .gemini/settings.json | sponge .gemini/settings.json
+    echo "✅ 記憶體使用資訊顯示已啟用"
+    ;;
+  *)
+    jq '.ui.showMemoryUsage = false' .gemini/settings.json | sponge .gemini/settings.json
+    echo "⏭️ 記憶體使用資訊顯示未啟用"
+    ;;
+esac
+echo ""
+
+###############################################################################
+# ui.hideBanner
+###############################################################################
+
+read -n1 -r -p "🎭 是否隱藏應用程式橫幅？(y/N): " hide_banner
+echo ""
+case "$hide_banner" in
+  [Yy]*)
+    jq '.ui.hideBanner = true' .gemini/settings.json | sponge .gemini/settings.json
+    echo "✅ 應用程式橫幅已隱藏"
+    ;;
+  *)
+    jq '.ui.hideBanner = false' .gemini/settings.json | sponge .gemini/settings.json
+    echo "⏭️ 應用程式橫幅將顯示"
+    ;;
+esac
+echo ""
+
+###############################################################################
+# privacy.usageStatisticsEnabled
+###############################################################################
+
+read -n1 -r -p "📊 是否啟用使用統計資料收集？(Y/n): " enable_stats
+echo ""
+case "$enable_stats" in
+  [Nn]*)
+    jq '.privacy.usageStatisticsEnabled = false' .gemini/settings.json | sponge .gemini/settings.json
+    echo "⏭️ 使用統計資料收集已停用"
+    ;;
+  *)
+    jq '.privacy.usageStatisticsEnabled = true' .gemini/settings.json | sponge .gemini/settings.json
+    echo "✅ 使用統計資料收集已啟用"
+    ;;
+esac
+echo ""
+
+###############################################################################
+# advanced.autoConfigureMemory (不詢問，直接設定為 true)
+###############################################################################
+
+jq '.advanced.autoConfigureMemory = true' .gemini/settings.json | sponge .gemini/settings.json
+echo "✅ 自動記憶體設定已啟用"
+echo ""
+
+###############################################################################
 # mcpServers.github
 ###############################################################################
 
