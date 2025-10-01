@@ -108,7 +108,37 @@ sudo apt install -y jq moreutils
 12. No Color
 13. Shades Of Purple
 
-### 4. MCP 伺服器設定
+### 4. Session Checkpointing
+
+- **功能**：啟用會話檢查點功能，用於恢復中斷的會話
+- **預設值**：否 (false)
+- **對應設定**：`general.checkpointing.enabled`
+
+### 5. 顯示記憶體使用資訊
+
+- **功能**：在 UI 中顯示記憶體使用資訊
+- **預設值**：否 (false)
+- **對應設定**：`ui.showMemoryUsage`
+
+### 6. 隱藏應用程式橫幅
+
+- **功能**：隱藏 Gemini CLI 的應用程式橫幅
+- **預設值**：否 (false)
+- **對應設定**：`ui.hideBanner`
+
+### 7. 使用統計資料收集
+
+- **功能**：啟用使用統計資料收集，幫助改善 Gemini CLI
+- **預設值**：是 (true)
+- **對應設定**：`privacy.usageStatisticsEnabled`
+
+### 8. 自動記憶體設定
+
+- **功能**：自動配置 Node.js 記憶體限制
+- **預設值**：是 (true) - **自動設定，不詢問使用者**
+- **對應設定**：`advanced.autoConfigureMemory`
+
+### 9. MCP 伺服器設定
 
 #### GitHub MCP 伺服器
 
