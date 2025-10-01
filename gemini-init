@@ -16,9 +16,9 @@ echo '{}' | jq '.' > .gemini/settings.json
 
 # 1. contextFileName
 echo "📝 請輸入要加入 context 的檔案名稱(逗號分隔):"
-echo "   預設: .github/copilot-instructions.md,CLAUDE.md,GEMINI.md,AGENTS.md"
+echo "   預設: GEMINI.md,AGENTS.md,CLAUDE.md,.github/copilot-instructions.md"
 read -p "你的選擇: " context_files
-context_files=${context_files:-".github/copilot-instructions.md,CLAUDE.md,GEMINI.md,AGENTS.md"}
+context_files=${context_files:-"GEMINI.md,AGENTS.md,CLAUDE.md,.github/copilot-instructions.md"}
 
 IFS=',' read -ra files <<< "$context_files"
 jq '.contextFileName = []' .gemini/settings.json | sponge .gemini/settings.json
