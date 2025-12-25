@@ -194,7 +194,8 @@ read -n1 -r -p "🔌 是否設定 Context7 MCP server？(y/N): " use_ctx7
 case "$use_ctx7" in
   [Yy]*)
     jq '.mcpServers.context7 = {}' .gemini/settings.json | sponge .gemini/settings.json
-    jq '.mcpServers.context7.type = "stdio"' .gemini/settings.json | sponge .gemini/settings.json
+# The 'type' key is no longer supported in gemini 0.22.2 for mcpServers.context7.
+#   jq '.mcpServers.context7.type = "stdio"' .gemini/settings.json | sponge .gemini/settings.json
     jq '.mcpServers.context7.command = "npx"' .gemini/settings.json | sponge .gemini/settings.json
     jq '.mcpServers.context7.args = ["-y","@upstash/context7-mcp"]' .gemini/settings.json | sponge .gemini/settings.json
     jq '.mcpServers.context7.trust = true' .gemini/settings.json | sponge .gemini/settings.json
