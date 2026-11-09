@@ -59,18 +59,15 @@ jq '.mcpServers.github.trust = true' .gemini/settings.json | sponge .gemini/sett
 # 19. 建立 context7 子物件
 jq '.mcpServers.context7 = {}' .gemini/settings.json | sponge .gemini/settings.json
 
-# 20. type
-jq '.mcpServers.context7.type = "stdio"' .gemini/settings.json | sponge .gemini/settings.json
-
-# 21. command
+# 20. command
 jq '.mcpServers.context7.command = "npx"' .gemini/settings.json | sponge .gemini/settings.json
 
-# 22. args（空陣列）
+# 21. args（空陣列）
 jq '.mcpServers.context7.args = []' .gemini/settings.json | sponge .gemini/settings.json
 
-# 23~24. 依序推入兩個參數
+# 22~23. 依序推入兩個參數
 jq '.mcpServers.context7.args += ["-y"]'                  .gemini/settings.json | sponge .gemini/settings.json
 jq '.mcpServers.context7.args += ["@upstash/context7-mcp"]' .gemini/settings.json | sponge .gemini/settings.json
 
-# 25. trust
+# 24. trust
 jq '.mcpServers.context7.trust = true' .gemini/settings.json | sponge .gemini/settings.json

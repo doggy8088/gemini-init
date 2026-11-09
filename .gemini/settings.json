@@ -16,7 +16,6 @@
       "trust": true
     },
     "context7": {
-      "type": "stdio",
       "command": "npx",
       "args": [
         "-y",

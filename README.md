@@ -163,7 +163,6 @@ sudo apt install -y jq moreutils
 
   ```json
   {
-    "type": "stdio",
     "command": "npx",
     "args": ["-y", "@upstash/context7-mcp"],
     "trust": true
@@ -206,7 +205,6 @@ sudo apt install -y jq moreutils
       "trust": true
     },
     "context7": {
-      "type": "stdio",
       "command": "npx",
       "args": [
         "-y",
